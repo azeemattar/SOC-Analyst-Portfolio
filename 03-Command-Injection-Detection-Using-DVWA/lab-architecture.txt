@@ -1,0 +1,16 @@
+┌──────────┐
+│ Firefox  │
+└────┬─────┘
+     │ HTTP Request
+     ▼
+┌───────────────┐
+│ Apache Server │
+│     DVWA      │
+└────┬──────────┘
+     │
+Executes OS Command
+     │
+     ▼
+┌───────────────┐
+│ Kali Linux OS │
+└───────────────┘
