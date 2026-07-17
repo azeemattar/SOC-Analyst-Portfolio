@@ -1,0 +1,13 @@
+                  Windows Host
+                        │
+             VirtualBox Host-Only Network
+                        │
+        ┌───────────────┴────────────────┐
+        │                                │
+        ▼                                ▼
+Kali Linux (Attacker)             Ubuntu Server (Victim)
+192.168.56.x                      192.168.56.102
+├── Nmap                          ├── Apache
+├── Hydra                         ├── SSH
+├── Nikto                         ├── MariaDB
+├── Burp Suite                    └── DVWA
