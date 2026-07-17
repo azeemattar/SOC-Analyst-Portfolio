@@ -30,7 +30,7 @@ Unlike a localhost DVWA setup, this lab separates the attacker and victim into d
         ▼                                 ▼
  Kali Linux VM                     Ubuntu Server VM
  (Attacker)                        (Victim)
- 192.168.56.x                      192.168.56.102
+ 192.168.56.101                      192.168.56.102
  ├── Nmap                          ├── Apache2
  ├── Hydra                         ├── OpenSSH
  ├── Nikto                         ├── MariaDB
@@ -56,7 +56,7 @@ Unlike a localhost DVWA setup, this lab separates the attacker and victim into d
 
 | Machine | Role | IP Address |
 |----------|------|------------|
-| Kali Linux | Attacker | 192.168.56.x |
+| Kali Linux | Attacker | 192.168.56.101 |
 | Ubuntu Server | Victim | 192.168.56.102 |
 
 Network Mode:
